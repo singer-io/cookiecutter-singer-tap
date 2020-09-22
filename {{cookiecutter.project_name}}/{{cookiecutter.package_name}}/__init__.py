@@ -63,12 +63,12 @@ def sync(config, state, catalog):
 
         singer.write_schema(
             stream_name=stream.tap_stream_id,
-            schema=stream.schema,
+            schema=stream.schema.to_dict(),
             key_properties=stream.key_properties,
         )
 
         # TODO: delete and replace this inline function with your own data retrieval process:
-        tap_data = lambda: [{"id": x, "name": "row${x}"} for x in range(1000)]
+        tap_data = lambda: [{"id": x, "name": f'row${x}'} for x in range(1000)]
 
         max_bookmark = None
         for row in tap_data():
